@@ -1,0 +1,14 @@
+node_modules
+dist
+lib
+.turbo
+*.log
+.DS_Store
+.env
+.env.local
+.env.*.local
+coverage
+.vscode/*
+!.vscode/extensions.json
+packages/sdk/src
+!packages/sdk/src/.gitkeep

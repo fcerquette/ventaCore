@@ -1,0 +1,21 @@
+{
+	"common": {
+		"login": "Sign in",
+		"logout": "Sign out",
+		"email": "Email",
+		"password": "Password",
+		"loading": "Loading...",
+		"welcome": "Welcome",
+		"notFound": "Page not found"
+	},
+	"areas": {
+		"superadmin": "Super Admin",
+		"admin": "Administration",
+		"app": "Application"
+	},
+	"auth": {
+		"signInTo": "Sign in to {area}",
+		"invalidCredentials": "Invalid credentials",
+		"forbidden": "You don't have access to this area"
+	}
+}

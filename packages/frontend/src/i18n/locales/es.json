@@ -1,0 +1,21 @@
+{
+	"common": {
+		"login": "Iniciar sesión",
+		"logout": "Cerrar sesión",
+		"email": "Email",
+		"password": "Contraseña",
+		"loading": "Cargando...",
+		"welcome": "Bienvenido",
+		"notFound": "Página no encontrada"
+	},
+	"areas": {
+		"superadmin": "Super Admin",
+		"admin": "Administración",
+		"app": "Aplicación"
+	},
+	"auth": {
+		"signInTo": "Ingresá a {area}",
+		"invalidCredentials": "Credenciales inválidas",
+		"forbidden": "No tenés permiso para esta área"
+	}
+}

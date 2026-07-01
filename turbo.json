@@ -1,0 +1,23 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", "lib/**"],
+			"env": ["VITE_*", "NODE_ENV"]
+		},
+		"dev": {
+			"dependsOn": ["^build"],
+			"cache": false,
+			"persistent": true
+		},
+		"lint": {},
+		"test": {},
+		"typecheck": {
+			"dependsOn": ["^build"]
+		},
+		"clean": {
+			"cache": false
+		}
+	}
+}

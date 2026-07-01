@@ -1,0 +1,57 @@
+{
+	"name": "@base-template/api",
+	"version": "1.0.0",
+	"private": true,
+	"main": "lib/src/main.js",
+	"scripts": {
+		"build": "tsc",
+		"start:nest": "dotenvx run -f ../../.env.development -- ts-node -r tsconfig-paths/register src/main.ts",
+		"start:nest:dev": "dotenvx run -f ../../.env.development -- nodemon",
+		"dev": "npm run start:nest",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix .",
+		"test": "jest --passWithNoTests",
+		"clean": "rimraf lib"
+	},
+	"engines": {
+		"node": "24"
+	},
+	"dependencies": {
+		"@base-template/shared": "*",
+		"@nestjs/common": "11.1.19",
+		"@nestjs/config": "4.0.4",
+		"@nestjs/core": "11.1.19",
+		"@nestjs/jwt": "11.0.2",
+		"@nestjs/passport": "11.0.5",
+		"@nestjs/platform-express": "11.1.19",
+		"@nestjs/swagger": "11.4.2",
+		"@nestjs/typeorm": "11.0.1",
+		"class-transformer": "0.5.1",
+		"class-validator": "0.15.1",
+		"dayjs": "1.11.20",
+		"firebase-admin": "13.9.0",
+		"passport": "0.7.0",
+		"passport-jwt": "4.0.1",
+		"pg": "8.20.0",
+		"reflect-metadata": "0.2.2",
+		"rxjs": "7.8.2",
+		"typeorm": "0.3.28"
+	},
+	"devDependencies": {
+		"@nestjs/testing": "11.1.19",
+		"@types/express": "5.0.0",
+		"@types/jest": "30.0.0",
+		"@types/node": "25.6.2",
+		"@types/passport-jwt": "4.0.1",
+		"@typescript-eslint/eslint-plugin": "8.59.2",
+		"@typescript-eslint/parser": "8.59.2",
+		"eslint": "10.3.0",
+		"jest": "30.4.0",
+		"nodemon": "3.1.14",
+		"rimraf": "6.0.1",
+		"ts-jest": "29.4.9",
+		"ts-node": "10.9.2",
+		"tsconfig-paths": "4.2.0",
+		"typescript": "5.9.3"
+	}
+}
