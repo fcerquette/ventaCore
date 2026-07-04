@@ -18,6 +18,11 @@ export class CreateRubroDto {
 	@IsString()
 	imageUrl?: string;
 
+	@ApiProperty({ required: false, example: 'https://instagram.com/el.negocio' })
+	@IsOptional()
+	@IsString()
+	instagramUrl?: string;
+
 	@ApiProperty({ enum: RubroStatus, required: false, default: RubroStatus.DRAFT })
 	@IsOptional()
 	@IsEnum(RubroStatus)

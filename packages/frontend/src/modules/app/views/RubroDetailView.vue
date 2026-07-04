@@ -78,14 +78,23 @@
 					<div class="flex flex-1 flex-col p-6">
 						<h3 class="mb-2 text-lg font-bold text-surface-900 dark:text-surface-0">{{ producto.nombre }}</h3>
 						<p class="mb-4 line-clamp-2 flex-1 text-sm text-surface-500">{{ producto.descripcion || '' }}</p>
-						<!-- Solo el admin logueado ve la acción de publicidad -->
+						<!-- Admin logueado: publicar (por ahora abre el Instagram del rubro) -->
 						<Button
 							v-if="isAdmin"
 							:label="$t('public.generateAd')"
-							icon="pi pi-sparkles"
-							disabled
-							:title="$t('admin.soon')"
+							icon="pi pi-instagram"
+							:disabled="!rubro?.instagramUrl"
+							:title="rubro?.instagramUrl ? '' : $t('public.noInstagram')"
 							class="primary-gradient mt-auto w-full border-0 py-2.5 font-semibold text-white"
+							@click="publicar"
+						/>
+						<!-- Cliente/visitante: consultar al vendedor por WhatsApp -->
+						<Button
+							v-else-if="espacio?.whatsapp"
+							:label="$t('public.consultWhatsapp')"
+							icon="pi pi-whatsapp"
+							class="primary-gradient mt-auto w-full border-0 py-2.5 font-semibold text-white"
+							@click="consultarWhatsapp(producto)"
 						/>
 					</div>
 				</div>
@@ -118,6 +127,9 @@ export default defineComponent({
 		},
 		rubro() {
 			return this.catalog.currentRubro;
+		},
+		espacio() {
+			return this.catalog.currentEspacio;
 		},
 		isAdmin(): boolean {
 			return useUserStore().role === Role.ADMIN;
@@ -161,6 +173,18 @@ export default defineComponent({
 		},
 		formatPrice(value: number): string {
 			return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(value);
+		},
+		/** Admin: por ahora abre el Instagram del rubro para armar la publicación. */
+		publicar() {
+			const url = this.rubro?.instagramUrl;
+			if (url) window.open(url, '_blank', 'noopener');
+		},
+		/** Cliente: abre WhatsApp con una consulta sobre el producto. */
+		consultarWhatsapp(producto: Producto) {
+			const num = (this.espacio?.whatsapp || '').replace(/\D/g, '');
+			if (!num) return;
+			const msg = this.$t('public.whatsappMsg', { producto: producto.nombre });
+			window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
 		},
 	},
 });

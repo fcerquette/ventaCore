@@ -8,6 +8,7 @@ import { RubroEntity } from '../catalog/entities/rubro.entity';
 import { EspacioEntity } from './entities/espacio.entity';
 import { CreateEspacioDto } from './dto/create-espacio.dto';
 import { UpdateEspacioDto } from './dto/update-espacio.dto';
+import { UpdateAboutDto } from './dto/update-about.dto';
 
 /** Convierte un nombre en un slug URL-safe (sin acentos ni símbolos). */
 function slugify(value: string): string {
@@ -52,6 +53,11 @@ export class EspaciosService {
 			descripcion: espacio.descripcion,
 			logoUrl: espacio.logoUrl,
 			active: espacio.active,
+			whatsapp: espacio.whatsapp,
+			instagramUrl: espacio.instagramUrl,
+			aboutHeadline: espacio.aboutHeadline,
+			aboutText: espacio.aboutText,
+			aboutImageUrl: espacio.aboutImageUrl,
 			createdAt: espacio.createdAt.toISOString(),
 			updatedAt: espacio.updatedAt.toISOString(),
 			adminEmail: admin?.email ?? null,
@@ -119,6 +125,24 @@ export class EspaciosService {
 			await this.usersService.remove(admin.id);
 		}
 		await this.repo.remove(espacio);
+	}
+
+	// ── Admin del espacio: su propia página "Sobre Nosotros" ──
+
+	/** El espacio del admin logueado. */
+	findById(id: string): Promise<EspacioEntity> {
+		return this.findOne(id);
+	}
+
+	/** Actualiza solo los campos de la página "Sobre Nosotros". */
+	async updateAbout(id: string, dto: UpdateAboutDto): Promise<EspacioEntity> {
+		const espacio = await this.findOne(id);
+		if (dto.whatsapp !== undefined) espacio.whatsapp = dto.whatsapp || null;
+		if (dto.instagramUrl !== undefined) espacio.instagramUrl = dto.instagramUrl || null;
+		if (dto.aboutHeadline !== undefined) espacio.aboutHeadline = dto.aboutHeadline || null;
+		if (dto.aboutText !== undefined) espacio.aboutText = dto.aboutText || null;
+		if (dto.aboutImageUrl !== undefined) espacio.aboutImageUrl = dto.aboutImageUrl || null;
+		return this.repo.save(espacio);
 	}
 
 	// ── Público: resolución por dominio ──

@@ -9,7 +9,8 @@
 		"notFound": "Página no encontrada",
 		"cancel": "Cancelar",
 		"delete": "Eliminar",
-		"edit": "Editar"
+		"edit": "Editar",
+		"signedInAs": "Sesión iniciada como"
 	},
 	"areas": {
 		"superadmin": "Super Admin",
@@ -38,6 +39,17 @@
 		"products": "Productos",
 		"categories": "Rubros",
 		"business": "Negocio",
+		"nav": {
+			"home": "Inicio"
+		},
+		"about": {
+			"nav": "Sobre Nosotros",
+			"eyebrow": "Sobre Nosotros",
+			"storyEyebrow": "Nuestra Historia",
+			"defaultHeadline": "Conocé más sobre {nombre}",
+			"empty": "Este negocio todavía no cargó su historia.",
+			"instagram": "Seguinos en Instagram"
+		},
 		"directoryTitle": "Negocios",
 		"emptyEspacios": "Todavía no hay negocios publicados.",
 		"backHome": "Volver a negocios",
@@ -48,7 +60,10 @@
 		"showing": "Mostrando {n} productos",
 		"searchPlaceholder": "Buscar producto...",
 		"noProducts": "Este rubro todavía no tiene productos.",
-		"generateAd": "Generar Publicidad",
+		"generateAd": "Publicar",
+		"noInstagram": "Configurá el Instagram de este rubro (Rubros → editar)",
+		"consultWhatsapp": "Consultar por WhatsApp",
+		"whatsappMsg": "¡Hola! Quería consultar sobre {producto}.",
 		"sort": {
 			"relevance": "Ordenar por: Relevancia",
 			"priceAsc": "Precio: Menor a Mayor",
@@ -110,8 +125,27 @@
 		"viewSite": "Ver el sitio",
 		"nav": {
 			"rubros": "Rubros",
+			"nosotros": "Sobre Nosotros",
 			"creativos": "Creativos",
 			"config": "Configuración"
+		},
+		"about": {
+			"title": "Sobre Nosotros",
+			"subtitle": "Contá tu historia. Esto se muestra en la página pública de tu negocio.",
+			"save": "Guardar cambios",
+			"saved": "Página actualizada",
+			"errorLoad": "No se pudo cargar tu página",
+			"errorSave": "No se pudo guardar",
+			"fields": {
+				"headline": "Título principal",
+				"headlinePlaceholder": "Ej. Nuestra misión: acercarte los mejores productos",
+				"text": "Tu historia",
+				"textPlaceholder": "Contá cómo empezaste, qué te diferencia, tus valores...",
+				"image": "Imagen (URL)",
+				"whatsapp": "WhatsApp",
+				"whatsappHint": "Con código de país, sin + ni espacios (ej. 5491112345678).",
+				"instagram": "Instagram (URL)"
+			}
 		},
 		"status": {
 			"active": "Activo",
@@ -150,6 +184,8 @@
 				"description": "Descripción",
 				"descriptionPlaceholder": "Describí brevemente el sector y sus objetivos...",
 				"imageUrl": "URL de imagen (opcional)",
+				"instagram": "Instagram del negocio",
+				"instagramHint": "Cada rubro es un negocio distinto: su publicación va a este Instagram.",
 				"status": "Estado"
 			}
 		},

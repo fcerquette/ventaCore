@@ -18,6 +18,8 @@ export interface Rubro {
 	nombre: string;
 	descripcion: string | null;
 	imageUrl: string | null;
+	/** Instagram propio del rubro (cada rubro es un negocio distinto). */
+	instagramUrl: string | null;
 	status: RubroStatus;
 	createdAt: string;
 	updatedAt: string;

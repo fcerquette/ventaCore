@@ -20,17 +20,26 @@
 					outlined
 					@click="$router.push('/')"
 				/>
-				<span class="hidden text-sm font-semibold text-surface-700 dark:text-surface-200 sm:inline">
-					{{ email }}
-				</span>
-				<Button
-					:label="$t('common.logout')"
-					icon="pi pi-sign-out"
-					severity="secondary"
-					size="small"
-					text
-					@click="onLogout"
-				/>
+				<button
+					type="button"
+					class="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-surface-100 dark:hover:bg-surface-800"
+					aria-haspopup="true"
+					@click="toggleUserMenu"
+				>
+					<Avatar :label="inicial" shape="circle" class="!bg-primary !text-white" />
+					<span class="hidden max-w-[10rem] truncate text-sm font-semibold text-surface-700 dark:text-surface-200 sm:inline">
+						{{ nombre }}
+					</span>
+					<i class="pi pi-chevron-down text-xs text-surface-400" />
+				</button>
+				<Menu ref="userMenu" :model="userMenuItems" popup>
+					<template #start>
+						<div class="border-b border-surface-200 px-3 py-2 dark:border-surface-700">
+							<p class="text-xs text-surface-400">{{ $t('common.signedInAs') }}</p>
+							<p class="max-w-[14rem] truncate text-sm font-medium text-surface-700 dark:text-surface-200">{{ email }}</p>
+						</div>
+					</template>
+				</Menu>
 			</div>
 		</header>
 
@@ -94,8 +103,21 @@ export default defineComponent({
 		email(): string {
 			return useUserStore().profile?.email ?? '';
 		},
+		nombre(): string {
+			const p = useUserStore().profile;
+			return p?.displayName || p?.email || '';
+		},
+		inicial(): string {
+			return (this.nombre.trim()[0] || '?').toUpperCase();
+		},
+		userMenuItems() {
+			return [{ label: this.$t('common.logout'), icon: 'pi pi-sign-out', command: () => this.onLogout() }];
+		},
 	},
 	methods: {
+		toggleUserMenu(event: Event) {
+			(this.$refs.userMenu as { toggle: (e: Event) => void }).toggle(event);
+		},
 		async onLogout() {
 			await useUserStore().logout();
 			this.$router.replace('/');

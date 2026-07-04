@@ -24,6 +24,22 @@ export class EspacioEntity {
 	@Column({ type: 'varchar', nullable: true })
 	logoUrl!: string | null;
 
+	// ── Contacto y página "Sobre Nosotros" (editable por el admin del espacio) ──
+	@Column({ type: 'varchar', nullable: true })
+	whatsapp!: string | null;
+
+	@Column({ type: 'varchar', nullable: true })
+	instagramUrl!: string | null;
+
+	@Column({ type: 'varchar', nullable: true })
+	aboutHeadline!: string | null;
+
+	@Column({ type: 'text', nullable: true })
+	aboutText!: string | null;
+
+	@Column({ type: 'varchar', nullable: true })
+	aboutImageUrl!: string | null;
+
 	@Column({ default: true })
 	active!: boolean;
 

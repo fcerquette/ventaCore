@@ -29,6 +29,10 @@ export class RubroEntity {
 	@Column({ type: 'varchar', nullable: true })
 	imageUrl!: string | null;
 
+	/** Instagram propio del rubro (cada rubro es un negocio distinto). */
+	@Column({ type: 'varchar', nullable: true })
+	instagramUrl!: string | null;
+
 	@Column({ type: 'enum', enum: RubroStatus, default: RubroStatus.DRAFT })
 	status!: RubroStatus;
 

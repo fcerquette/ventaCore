@@ -8,10 +8,11 @@ import { RolesGuard } from '../../common/auth/roles.guard';
 import { EspacioEntity } from './entities/espacio.entity';
 import { EspaciosService } from './espacios.service';
 import { EspaciosController } from './espacios.controller';
+import { MiEspacioController } from './mi-espacio.controller';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([EspacioEntity, UserEntity, RubroEntity]), UsersModule],
-	controllers: [EspaciosController],
+	controllers: [EspaciosController, MiEspacioController],
 	providers: [EspaciosService, FirebaseAuthGuard, RolesGuard],
 	exports: [EspaciosService],
 })

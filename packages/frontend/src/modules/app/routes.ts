@@ -18,6 +18,11 @@ const appRoutes: RouteRecordRaw[] = [
 				name: 'app-rubro-detalle',
 				component: () => import('./views/RubroDetailView.vue'),
 			},
+			{
+				path: 'nosotros',
+				name: 'app-nosotros',
+				component: () => import('./views/AboutView.vue'),
+			},
 		],
 	},
 ];

@@ -13,6 +13,12 @@ export interface Espacio {
 	descripcion: string | null;
 	logoUrl: string | null;
 	active: boolean;
+	// Contacto y página "Sobre Nosotros" (editable por el admin)
+	whatsapp: string | null;
+	instagramUrl: string | null;
+	aboutHeadline: string | null;
+	aboutText: string | null;
+	aboutImageUrl: string | null;
 	createdAt: string;
 	updatedAt: string;
 	/** Solo en el panel superadmin: email del admin y cantidad de rubros. */

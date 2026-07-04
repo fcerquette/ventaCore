@@ -59,6 +59,14 @@
 						</div>
 
 						<div class="space-y-2">
+							<label class="flex items-center gap-1.5 px-1 text-xs font-semibold uppercase tracking-wide text-surface-600 dark:text-surface-300">
+								<i class="pi pi-instagram" /> {{ $t('admin.rubros.fields.instagram') }}
+							</label>
+							<InputText v-model="form.instagramUrl" class="w-full" placeholder="https://instagram.com/el.negocio" />
+							<p class="px-1 text-xs text-surface-400">{{ $t('admin.rubros.fields.instagramHint') }}</p>
+						</div>
+
+						<div class="space-y-2">
 							<label class="px-1 text-xs font-semibold uppercase tracking-wide text-surface-600 dark:text-surface-300">
 								{{ $t('admin.rubros.fields.status') }}
 							</label>
@@ -174,6 +182,10 @@
 					<InputText v-model="edit.imageUrl" class="w-full" placeholder="https://..." />
 				</div>
 				<div class="space-y-1">
+					<label class="flex items-center gap-1.5 text-sm font-medium"><i class="pi pi-instagram" /> {{ $t('admin.rubros.fields.instagram') }}</label>
+					<InputText v-model="edit.instagramUrl" class="w-full" placeholder="https://instagram.com/el.negocio" />
+				</div>
+				<div class="space-y-1">
 					<label class="text-sm font-medium">{{ $t('admin.rubros.fields.status') }}</label>
 					<Select v-model="edit.status" :options="statusOptions" option-label="label" option-value="value" class="w-full" />
 				</div>
@@ -203,6 +215,7 @@ export default defineComponent({
 				nombre: '',
 				descripcion: '',
 				imageUrl: '',
+				instagramUrl: '',
 				status: RubroStatus.DRAFT as RubroStatus,
 			},
 			editVisible: false,
@@ -211,6 +224,7 @@ export default defineComponent({
 				nombre: '',
 				descripcion: '',
 				imageUrl: '',
+				instagramUrl: '',
 				status: RubroStatus.DRAFT as RubroStatus,
 			},
 		};
@@ -242,10 +256,11 @@ export default defineComponent({
 					nombre: this.form.nombre.trim(),
 					descripcion: this.form.descripcion.trim() || undefined,
 					imageUrl: this.form.imageUrl.trim() || undefined,
+					instagramUrl: this.form.instagramUrl.trim() || undefined,
 					status: this.form.status,
 				});
 				this.$toast.add({ severity: 'success', summary: this.$t('admin.rubros.created'), life: 3000 });
-				this.form = { nombre: '', descripcion: '', imageUrl: '', status: RubroStatus.DRAFT };
+				this.form = { nombre: '', descripcion: '', imageUrl: '', instagramUrl: '', status: RubroStatus.DRAFT };
 			} catch {
 				this.$toast.add({ severity: 'error', summary: this.$t('admin.errors.save'), life: 4000 });
 			} finally {
@@ -258,6 +273,7 @@ export default defineComponent({
 				nombre: rubro.nombre,
 				descripcion: rubro.descripcion ?? '',
 				imageUrl: rubro.imageUrl ?? '',
+				instagramUrl: rubro.instagramUrl ?? '',
 				status: rubro.status,
 			};
 			this.editVisible = true;
@@ -269,6 +285,7 @@ export default defineComponent({
 					nombre: this.edit.nombre.trim(),
 					descripcion: this.edit.descripcion.trim() || undefined,
 					imageUrl: this.edit.imageUrl.trim() || undefined,
+					instagramUrl: this.edit.instagramUrl.trim(),
 					status: this.edit.status,
 				});
 				this.$toast.add({ severity: 'success', summary: this.$t('admin.rubros.updated'), life: 3000 });

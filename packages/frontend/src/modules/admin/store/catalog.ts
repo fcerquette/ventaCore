@@ -5,6 +5,8 @@ import { api } from '@/shared/services/api';
 interface CatalogState {
 	rubros: Rubro[];
 	productos: Producto[];
+	// El espacio del admin logueado (para editar su "Sobre Nosotros")
+	miEspacio: Espacio | null;
 	// Vitrina pública (negocio del dominio actual)
 	currentEspacio: Espacio | null;
 	siteResolved: boolean;
@@ -13,14 +15,20 @@ interface CatalogState {
 	publicProductos: Producto[];
 }
 
+/** Campos editables de la página "Sobre Nosotros". */
+export type AboutInput = Partial<
+	Pick<Espacio, 'whatsapp' | 'instagramUrl' | 'aboutHeadline' | 'aboutText' | 'aboutImageUrl'>
+>;
+
 /** Payloads de creación/edición (el backend infiere el dueño desde el token). */
-export type RubroInput = Partial<Pick<Rubro, 'nombre' | 'descripcion' | 'imageUrl' | 'status'>>;
+export type RubroInput = Partial<Pick<Rubro, 'nombre' | 'descripcion' | 'imageUrl' | 'instagramUrl' | 'status'>>;
 export type ProductoInput = Partial<Pick<Producto, 'nombre' | 'descripcion' | 'precio' | 'imageUrl'>>;
 
 export const useCatalogStore = defineStore('catalog', {
 	state: (): CatalogState => ({
 		rubros: [],
 		productos: [],
+		miEspacio: null,
 		currentEspacio: null,
 		siteResolved: false,
 		publicRubros: [],
@@ -84,6 +92,17 @@ export const useCatalogStore = defineStore('catalog', {
 		async deleteProducto(rubroId: string, id: string): Promise<void> {
 			await api.delete(`/rubros/${rubroId}/productos/${id}`);
 			this.productos = this.productos.filter(p => p.id !== id);
+		},
+
+		// ── "Sobre Nosotros" del admin logueado ──
+		async fetchMiEspacio(): Promise<void> {
+			const { data } = await api.get<Espacio>('/mi-espacio');
+			this.miEspacio = data;
+		},
+
+		async updateMiEspacio(input: AboutInput): Promise<void> {
+			const { data } = await api.patch<Espacio>('/mi-espacio', input);
+			this.miEspacio = data;
 		},
 
 		// ── Vitrina pública (negocio del dominio actual) ──
