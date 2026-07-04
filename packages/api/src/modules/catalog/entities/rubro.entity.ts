@@ -15,10 +15,10 @@ export class RubroEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id!: string;
 
-	/** UID de Firebase del admin dueño del rubro (no es UUID, es string de Firebase). */
+	/** Espacio (negocio) al que pertenece el rubro. */
 	@Index()
-	@Column()
-	ownerId!: string;
+	@Column('uuid')
+	espacioId!: string;
 
 	@Column()
 	nombre!: string;

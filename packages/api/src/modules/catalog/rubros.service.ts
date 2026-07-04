@@ -13,41 +13,42 @@ export class RubrosService {
 		private readonly repo: Repository<RubroEntity>,
 	) {}
 
-	findByOwner(ownerId: string): Promise<RubroEntity[]> {
-		return this.repo.find({ where: { ownerId }, order: { createdAt: 'DESC' } });
+	findByEspacio(espacioId: string): Promise<RubroEntity[]> {
+		return this.repo.find({ where: { espacioId }, order: { createdAt: 'DESC' } });
 	}
 
-	/** Busca un rubro validando que pertenezca al admin dueño. */
-	async findOne(id: string, ownerId: string): Promise<RubroEntity> {
-		const rubro = await this.repo.findOne({ where: { id, ownerId } });
+	/** Busca un rubro validando que pertenezca al espacio dado. */
+	async findOne(id: string, espacioId: string): Promise<RubroEntity> {
+		const rubro = await this.repo.findOne({ where: { id, espacioId } });
 		if (!rubro) throw new NotFoundException('Rubro no encontrado');
 		return rubro;
 	}
 
-	create(ownerId: string, dto: CreateRubroDto): Promise<RubroEntity> {
-		const entity = this.repo.create({ ...dto, ownerId });
+	create(espacioId: string, dto: CreateRubroDto): Promise<RubroEntity> {
+		const entity = this.repo.create({ ...dto, espacioId });
 		return this.repo.save(entity);
 	}
 
-	async update(id: string, ownerId: string, dto: UpdateRubroDto): Promise<RubroEntity> {
-		const rubro = await this.findOne(id, ownerId);
+	async update(id: string, espacioId: string, dto: UpdateRubroDto): Promise<RubroEntity> {
+		const rubro = await this.findOne(id, espacioId);
 		Object.assign(rubro, dto);
 		return this.repo.save(rubro);
 	}
 
-	async remove(id: string, ownerId: string): Promise<void> {
-		const rubro = await this.findOne(id, ownerId);
+	async remove(id: string, espacioId: string): Promise<void> {
+		const rubro = await this.findOne(id, espacioId);
 		await this.repo.remove(rubro);
 	}
 
-	// ── Público (sin dueño): solo rubros activos ──
+	// ── Público: solo rubros activos de un espacio ──
 
-	/** Rubros activos de todos los admins, con el conteo de productos. */
-	findPublicActivos(): Promise<RubroEntity[]> {
+	/** Rubros activos de un espacio, con el conteo de productos. */
+	findPublicByEspacio(espacioId: string): Promise<RubroEntity[]> {
 		return this.repo
 			.createQueryBuilder('rubro')
 			.loadRelationCountAndMap('rubro.productCount', 'rubro.productos')
-			.where('rubro.status = :status', { status: RubroStatus.ACTIVE })
+			.where('rubro.espacioId = :espacioId', { espacioId })
+			.andWhere('rubro.status = :status', { status: RubroStatus.ACTIVE })
 			.orderBy('rubro.createdAt', 'DESC')
 			.getMany();
 	}

@@ -8,7 +8,8 @@
 		"welcome": "Welcome",
 		"notFound": "Page not found",
 		"cancel": "Cancel",
-		"delete": "Delete"
+		"delete": "Delete",
+		"edit": "Edit"
 	},
 	"areas": {
 		"superadmin": "Super Admin",
@@ -35,7 +36,12 @@
 			"cta": "Explore Catalog"
 		},
 		"products": "Products",
-		"empty": "No categories published yet.",
+		"categories": "Categories",
+		"business": "Business",
+		"directoryTitle": "Businesses",
+		"emptyEspacios": "No businesses published yet.",
+		"backHome": "Back to businesses",
+		"empty": "This business has no categories published yet.",
 		"back": "Back",
 		"sector": "Sector",
 		"detailTitle": "Category",
@@ -53,6 +59,48 @@
 			"leads": "Leads Generated",
 			"support": "AI Support",
 			"catalogs": "Catalogs"
+		}
+	},
+	"superadmin": {
+		"panelTitle": "Super Admin",
+		"panelSubtitle": "Platform management",
+		"nav": {
+			"espacios": "Spaces",
+			"usuarios": "Users",
+			"config": "Settings"
+		},
+		"espacios": {
+			"title": "Space Management",
+			"subtitle": "Create and manage the platform's businesses. Each space has its own admin and public storefront.",
+			"new": "New Space",
+			"empty": "No spaces created yet.",
+			"active": "Active",
+			"suspended": "Suspended",
+			"rubros": "{n} categories",
+			"suspend": "Suspend",
+			"activate": "Activate",
+			"createTitle": "Create Space",
+			"editTitle": "Edit Space",
+			"create": "Create",
+			"saveChanges": "Save changes",
+			"created": "Space created",
+			"updated": "Space updated",
+			"deleted": "Space deleted",
+			"deleteTitle": "Delete space",
+			"deleteConfirm": "Delete \"{name}\"? Its admin, categories and products will be removed.",
+			"domainHint": "In development it's reachable at {slug}.localhost. In production, point this domain to the site.",
+			"adminSection": "Space admin (CM)",
+			"errorLoad": "Could not load spaces",
+			"errorForm": "Enter a name, email and a password of at least 6 characters",
+			"errorEmail": "A user with that email already exists",
+			"errorSave": "Could not save",
+			"errorDelete": "Could not delete",
+			"fields": {
+				"name": "Business name",
+				"description": "Description",
+				"logoUrl": "Logo URL (optional)",
+				"domain": "Domain (optional)"
+			}
 		}
 	},
 	"admin": {

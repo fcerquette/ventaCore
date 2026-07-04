@@ -39,6 +39,7 @@ export class FirebaseAuthGuard implements CanActivate {
 			uid: profile.uid,
 			email: profile.email,
 			role: profile.role,
+			espacioId: profile.espacioId,
 		};
 
 		return true;

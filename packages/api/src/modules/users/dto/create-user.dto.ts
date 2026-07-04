@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsOptional, IsString, IsUUID, MinLength } from 'class-validator';
 import { Role } from '@base-template/shared';
 
 export class CreateUserDto {
@@ -25,4 +25,9 @@ export class CreateUserDto {
 	@IsOptional()
 	@IsBoolean()
 	active?: boolean;
+
+	@ApiProperty({ required: false, description: 'Espacio del admin/CM' })
+	@IsOptional()
+	@IsUUID()
+	espacioId?: string;
 }

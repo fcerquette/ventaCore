@@ -1,30 +1,24 @@
 <template>
 	<div class="mx-auto max-w-7xl">
-		<!-- Hero -->
-		<header class="mb-12 flex flex-col items-center rounded-[2rem] px-6 py-16 text-center md:py-20">
-			<h1 class="mb-6 max-w-3xl text-4xl font-extrabold leading-tight text-surface-900 dark:text-surface-0 md:text-5xl">
-				{{ $t('public.hero.titlePre') }} <span class="text-primary">{{ $t('public.hero.titleHi') }}</span>
+		<!-- Hero del negocio -->
+		<header class="mb-12 flex flex-col items-center gap-5 rounded-[2rem] px-6 py-14 text-center">
+			<div v-if="espacio?.logoUrl" class="h-24 w-24 overflow-hidden rounded-3xl shadow-lg">
+				<img :src="espacio.logoUrl" class="h-full w-full object-cover" :alt="espacio?.nombre" />
+			</div>
+			<div v-else class="primary-gradient flex h-24 w-24 items-center justify-center rounded-3xl shadow-lg">
+				<i class="pi pi-building text-3xl text-white" />
+			</div>
+			<h1 class="max-w-3xl text-4xl font-extrabold leading-tight text-surface-900 dark:text-surface-0 md:text-5xl">
+				{{ espacio?.nombre }}
 			</h1>
-			<p class="mb-10 max-w-2xl text-lg text-surface-600 dark:text-surface-300">
-				{{ $t('public.hero.subtitle') }}
+			<p v-if="espacio?.descripcion" class="max-w-2xl text-lg text-surface-600 dark:text-surface-300">
+				{{ espacio.descripcion }}
 			</p>
-			<Button
-				:label="$t('public.hero.cta')"
-				icon="pi pi-arrow-down"
-				icon-pos="right"
-				rounded
-				class="primary-gradient border-0 px-8 py-3 font-semibold text-white"
-				@click="scrollToGrid"
-			/>
 		</header>
 
-		<!-- Bento de rubros -->
-		<section ref="grid" class="mb-16 scroll-mt-24">
-			<div v-if="loading" class="py-16 text-center text-surface-500">
-				<i class="pi pi-spin pi-spinner text-3xl" />
-			</div>
-
-			<div v-else-if="!rubros.length" class="glass-card rounded-3xl p-12 text-center text-surface-500">
+		<!-- Bento de rubros del negocio -->
+		<section class="mb-16">
+			<div v-if="!rubros.length" class="glass-card rounded-3xl p-12 text-center text-surface-500">
 				{{ $t('public.empty') }}
 			</div>
 
@@ -36,7 +30,6 @@
 					:class="spanClass(i)"
 					class="group relative flex flex-col overflow-hidden rounded-[2rem] transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10"
 				>
-					<!-- Imagen o degradé -->
 					<div class="relative flex-1 overflow-hidden bg-surface-100 dark:bg-surface-800">
 						<img
 							v-if="rubro.imageUrl"
@@ -52,11 +45,10 @@
 							<span class="text-xs font-bold text-primary">{{ rubro.nombre }}</span>
 						</span>
 					</div>
-					<!-- Pie -->
 					<div class="flex items-end justify-between gap-4 bg-white/80 p-6 backdrop-blur-md dark:bg-surface-900/70">
 						<div class="min-w-0">
 							<h3 class="truncate text-lg font-bold text-surface-900 dark:text-surface-0">{{ rubro.nombre }}</h3>
-							<p class="line-clamp-1 text-sm text-surface-500">{{ rubro.descripcion || ' ' }}</p>
+							<p class="line-clamp-1 text-sm text-surface-500">{{ rubro.descripcion || ' ' }}</p>
 						</div>
 						<div class="flex-shrink-0 text-right">
 							<span class="block text-xl font-extrabold text-primary">{{ rubro.productCount ?? 0 }}</span>
@@ -66,24 +58,14 @@
 				</router-link>
 			</div>
 		</section>
-
-		<!-- Stats (ilustrativas) -->
-		<section class="mb-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-			<div v-for="stat in stats" :key="stat.label" class="rounded-3xl border border-primary/10 bg-primary/5 p-6 text-center">
-				<span class="block text-3xl font-extrabold text-primary">{{ stat.value }}</span>
-				<span class="text-xs font-semibold uppercase text-surface-400">{{ $t(stat.label) }}</span>
-			</div>
-		</section>
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import type { Rubro } from '@base-template/shared';
+import type { Espacio, Rubro } from '@base-template/shared';
 import { useCatalogStore } from '@/modules/admin/store/catalog';
 
-// Patrón cíclico de anchos (12 columnas) que llena filas: 8+4 / 4+4+4 / 6+6.
-// Con grid-auto-flow: dense cualquier cantidad de rubros queda prolija.
 const SPAN_CYCLE = [
 	'md:col-span-8',
 	'md:col-span-4',
@@ -99,34 +81,19 @@ export default defineComponent({
 	data() {
 		return {
 			catalog: useCatalogStore(),
-			loading: false,
-			stats: [
-				{ value: '98%', label: 'public.stats.conversion' },
-				{ value: '15k+', label: 'public.stats.leads' },
-				{ value: '24/7', label: 'public.stats.support' },
-				{ value: '500+', label: 'public.stats.catalogs' },
-			],
 		};
 	},
 	computed: {
+		espacio(): Espacio | null {
+			return this.catalog.currentEspacio;
+		},
 		rubros(): Rubro[] {
 			return this.catalog.publicRubros;
 		},
 	},
-	async created() {
-		this.loading = true;
-		try {
-			await this.catalog.fetchPublicRubros();
-		} finally {
-			this.loading = false;
-		}
-	},
 	methods: {
 		spanClass(i: number): string {
 			return SPAN_CYCLE[i % SPAN_CYCLE.length];
-		},
-		scrollToGrid() {
-			(this.$refs.grid as HTMLElement | undefined)?.scrollIntoView({ behavior: 'smooth' });
 		},
 	},
 });

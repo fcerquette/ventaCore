@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, ForbiddenException, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthenticatedUser, Role } from '@base-template/shared';
 import { FirebaseAuthGuard } from '../../common/auth/firebase-auth.guard';
@@ -8,6 +8,11 @@ import { CurrentUser } from '../../common/auth/current-user.decorator';
 import { ProductosService } from './productos.service';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
+
+function espacioDe(user: AuthenticatedUser): string {
+	if (!user.espacioId) throw new ForbiddenException('El usuario no tiene un espacio asignado');
+	return user.espacioId;
+}
 
 @ApiTags('productos')
 @ApiBearerAuth()
@@ -19,7 +24,7 @@ export class ProductosController {
 
 	@Get()
 	findAll(@CurrentUser() user: AuthenticatedUser, @Param('rubroId') rubroId: string) {
-		return this.productos.findByRubro(rubroId, user.uid);
+		return this.productos.findByRubro(rubroId, espacioDe(user));
 	}
 
 	@Post()
@@ -28,7 +33,7 @@ export class ProductosController {
 		@Param('rubroId') rubroId: string,
 		@Body() dto: CreateProductoDto,
 	) {
-		return this.productos.create(rubroId, user.uid, dto);
+		return this.productos.create(rubroId, espacioDe(user), dto);
 	}
 
 	@Patch(':id')
@@ -38,15 +43,11 @@ export class ProductosController {
 		@Param('id') id: string,
 		@Body() dto: UpdateProductoDto,
 	) {
-		return this.productos.update(id, rubroId, user.uid, dto);
+		return this.productos.update(id, rubroId, espacioDe(user), dto);
 	}
 
 	@Delete(':id')
-	remove(
-		@CurrentUser() user: AuthenticatedUser,
-		@Param('rubroId') rubroId: string,
-		@Param('id') id: string,
-	) {
-		return this.productos.remove(id, rubroId, user.uid);
+	remove(@CurrentUser() user: AuthenticatedUser, @Param('rubroId') rubroId: string, @Param('id') id: string) {
+		return this.productos.remove(id, rubroId, espacioDe(user));
 	}
 }

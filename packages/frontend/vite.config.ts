@@ -17,6 +17,11 @@ export default defineConfig(({ mode }) => {
 	return {
 		envDir: path.resolve(__dirname, '../../'),
 		base: env.VITE_BASE_PATH || '/',
+		// Permite subdominios de localhost (cada negocio: {slug}.localhost:5173).
+		server: {
+			host: true,
+			allowedHosts: ['.localhost'],
+		},
 		build: {
 			target: 'esnext',
 		},

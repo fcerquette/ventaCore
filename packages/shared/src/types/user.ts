@@ -8,6 +8,8 @@ export interface UserProfile {
 	displayName: string | null;
 	role: Role;
 	active: boolean;
+	/** Espacio (negocio) al que pertenece el admin/CM. null para superadmin. */
+	espacioId: string | null;
 	createdAt: string;
 	updatedAt: string;
 }

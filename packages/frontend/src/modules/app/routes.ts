@@ -3,7 +3,8 @@ import PublicLayout from '@/modules/app/components/PublicLayout.vue';
 
 const appRoutes: RouteRecordRaw[] = [
 	{
-		path: '/app',
+		// El negocio se resuelve por el dominio (hostname). La raíz es su vitrina.
+		path: '/',
 		component: PublicLayout,
 		meta: { area: 'app' },
 		children: [

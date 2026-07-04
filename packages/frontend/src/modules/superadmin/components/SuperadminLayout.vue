@@ -4,7 +4,12 @@
 		<header
 			class="fixed top-0 left-0 z-50 flex h-16 w-full items-center justify-between border-b border-surface-200/60 bg-surface-0/70 px-6 backdrop-blur-xl dark:border-surface-700/60 dark:bg-surface-900/70"
 		>
-			<span class="text-xl font-extrabold text-primary">{{ $t('app.brand') }}</span>
+			<div class="flex items-center gap-3">
+				<span class="text-xl font-extrabold text-primary">{{ $t('app.brand') }}</span>
+				<span class="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
+					{{ $t('areas.superadmin') }}
+				</span>
+			</div>
 
 			<div class="flex items-center gap-3">
 				<Button
@@ -34,8 +39,8 @@
 			class="fixed top-16 left-0 z-40 flex h-[calc(100vh-64px)] w-64 flex-col border-r border-surface-200/60 bg-surface-0/60 p-4 backdrop-blur-2xl dark:border-surface-700/60 dark:bg-surface-900/60"
 		>
 			<div class="mb-8 px-3">
-				<h2 class="text-lg font-black text-primary">{{ $t('admin.panelTitle') }}</h2>
-				<p class="text-xs text-surface-500">{{ $t('admin.panelSubtitle') }}</p>
+				<h2 class="text-lg font-black text-primary">{{ $t('superadmin.panelTitle') }}</h2>
+				<p class="text-xs text-surface-500">{{ $t('superadmin.panelSubtitle') }}</p>
 			</div>
 
 			<nav class="flex flex-1 flex-col gap-1">
@@ -47,9 +52,7 @@
 						'flex items-center gap-3 rounded-xl p-3 text-sm font-semibold transition-all',
 						item.disabled
 							? 'cursor-not-allowed text-surface-400'
-							: isActive(item)
-								? 'bg-primary/10 text-primary shadow-sm'
-								: 'text-surface-600 hover:translate-x-1 hover:bg-surface-100 dark:text-surface-300 dark:hover:bg-surface-800',
+							: 'bg-primary/10 text-primary shadow-sm',
 					]"
 					@click="item.disabled && $event.preventDefault()"
 				>
@@ -76,23 +79,15 @@
 import { defineComponent } from 'vue';
 import { useUserStore } from '@/modules/auth/store/user';
 
-interface NavItem {
-	key: string;
-	label: string;
-	icon: string;
-	to: string;
-	disabled?: boolean;
-}
-
 export default defineComponent({
-	name: 'AdminLayout',
+	name: 'SuperadminLayout',
 	data() {
 		return {
 			navItems: [
-				{ key: 'rubros', label: 'admin.nav.rubros', icon: 'pi pi-tags', to: '/admin' },
-				{ key: 'creativos', label: 'admin.nav.creativos', icon: 'pi pi-palette', to: '/admin', disabled: true },
-				{ key: 'config', label: 'admin.nav.config', icon: 'pi pi-cog', to: '/admin', disabled: true },
-			] as NavItem[],
+				{ key: 'espacios', label: 'superadmin.nav.espacios', icon: 'pi pi-building', to: '/superadmin' },
+				{ key: 'usuarios', label: 'superadmin.nav.usuarios', icon: 'pi pi-users', to: '/superadmin', disabled: true },
+				{ key: 'config', label: 'superadmin.nav.config', icon: 'pi pi-cog', to: '/superadmin', disabled: true },
+			],
 		};
 	},
 	computed: {
@@ -101,13 +96,8 @@ export default defineComponent({
 		},
 	},
 	methods: {
-		isActive(item: NavItem): boolean {
-			// "Rubros" queda activo tanto en la lista como en la vista de productos.
-			return item.key === 'rubros' && this.$route.path.startsWith('/admin');
-		},
 		async onLogout() {
 			await useUserStore().logout();
-			// Al cerrar sesión volvemos a la página pública como visitante.
 			this.$router.replace('/');
 		},
 	},

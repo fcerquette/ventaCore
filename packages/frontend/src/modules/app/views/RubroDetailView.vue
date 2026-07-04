@@ -15,7 +15,7 @@
 					icon="pi pi-arrow-left"
 					text
 					class="w-fit !text-white"
-					@click="$router.push('/app')"
+					@click="goBack"
 				/>
 				<span class="flex w-fit items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 backdrop-blur-md">
 					<i class="pi pi-tag text-sm text-white" />
@@ -149,13 +149,16 @@ export default defineComponent({
 				this.catalog.fetchPublicProductos(this.rubroId),
 			]);
 		} catch {
-			// Rubro inexistente o en borrador → volver al catálogo.
-			this.$router.replace('/app');
+			// Rubro inexistente o en borrador → volver a la vitrina del negocio.
+			this.goBack();
 		} finally {
 			this.loading = false;
 		}
 	},
 	methods: {
+		goBack() {
+			this.$router.push('/');
+		},
 		formatPrice(value: number): string {
 			return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(value);
 		},

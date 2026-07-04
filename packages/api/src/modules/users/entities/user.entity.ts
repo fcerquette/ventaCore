@@ -18,6 +18,10 @@ export class UserEntity {
 	@Column({ type: 'enum', enum: Role, default: Role.USER })
 	role!: Role;
 
+	/** Espacio (negocio) del admin/CM. null para superadmin y usuarios públicos. */
+	@Column({ type: 'uuid', nullable: true })
+	espacioId!: string | null;
+
 	@Column({ default: true })
 	active!: boolean;
 

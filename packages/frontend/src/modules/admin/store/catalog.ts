@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia';
-import type { Rubro, Producto } from '@base-template/shared';
+import type { Rubro, Producto, Espacio } from '@base-template/shared';
 import { api } from '@/shared/services/api';
 
 interface CatalogState {
 	rubros: Rubro[];
 	productos: Producto[];
-	// Escaparate público
+	// Vitrina pública (negocio del dominio actual)
+	currentEspacio: Espacio | null;
+	siteResolved: boolean;
 	publicRubros: Rubro[];
 	currentRubro: Rubro | null;
 	publicProductos: Producto[];
@@ -19,6 +21,8 @@ export const useCatalogStore = defineStore('catalog', {
 	state: (): CatalogState => ({
 		rubros: [],
 		productos: [],
+		currentEspacio: null,
+		siteResolved: false,
 		publicRubros: [],
 		currentRubro: null,
 		publicProductos: [],
@@ -82,10 +86,26 @@ export const useCatalogStore = defineStore('catalog', {
 			this.productos = this.productos.filter(p => p.id !== id);
 		},
 
-		// ── Público (escaparate anónimo) ──
-		async fetchPublicRubros(): Promise<void> {
-			const { data } = await api.get<Rubro[]>('/public/rubros');
-			this.publicRubros = data;
+		// ── Vitrina pública (negocio del dominio actual) ──
+		/**
+		 * Resuelve el negocio según el hostname del navegador y carga sus rubros.
+		 * Devuelve false si no hay negocio en este dominio.
+		 */
+		async resolveSite(): Promise<boolean> {
+			try {
+				const host = window.location.hostname;
+				const { data } = await api.get<{ espacio: Espacio; rubros: Rubro[] }>('/public/site', {
+					params: { host },
+				});
+				this.currentEspacio = data.espacio;
+				this.publicRubros = data.rubros;
+				this.siteResolved = true;
+				return true;
+			} catch {
+				this.currentEspacio = null;
+				this.siteResolved = false;
+				return false;
+			}
 		},
 
 		async fetchPublicRubro(id: string): Promise<void> {

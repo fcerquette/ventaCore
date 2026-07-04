@@ -14,33 +14,33 @@ export class ProductosService {
 		private readonly rubros: RubrosService,
 	) {}
 
-	/** Lista los productos de un rubro, validando que el rubro sea del admin. */
-	async findByRubro(rubroId: string, ownerId: string): Promise<ProductoEntity[]> {
-		await this.rubros.findOne(rubroId, ownerId);
+	/** Lista los productos de un rubro, validando que el rubro sea del espacio. */
+	async findByRubro(rubroId: string, espacioId: string): Promise<ProductoEntity[]> {
+		await this.rubros.findOne(rubroId, espacioId);
 		return this.repo.find({ where: { rubroId }, order: { createdAt: 'DESC' } });
 	}
 
-	private async findOwned(id: string, rubroId: string, ownerId: string): Promise<ProductoEntity> {
-		await this.rubros.findOne(rubroId, ownerId);
+	private async findOwned(id: string, rubroId: string, espacioId: string): Promise<ProductoEntity> {
+		await this.rubros.findOne(rubroId, espacioId);
 		const producto = await this.repo.findOne({ where: { id, rubroId } });
 		if (!producto) throw new NotFoundException('Producto no encontrado');
 		return producto;
 	}
 
-	async create(rubroId: string, ownerId: string, dto: CreateProductoDto): Promise<ProductoEntity> {
-		await this.rubros.findOne(rubroId, ownerId);
+	async create(rubroId: string, espacioId: string, dto: CreateProductoDto): Promise<ProductoEntity> {
+		await this.rubros.findOne(rubroId, espacioId);
 		const entity = this.repo.create({ ...dto, rubroId });
 		return this.repo.save(entity);
 	}
 
-	async update(id: string, rubroId: string, ownerId: string, dto: UpdateProductoDto): Promise<ProductoEntity> {
-		const producto = await this.findOwned(id, rubroId, ownerId);
+	async update(id: string, rubroId: string, espacioId: string, dto: UpdateProductoDto): Promise<ProductoEntity> {
+		const producto = await this.findOwned(id, rubroId, espacioId);
 		Object.assign(producto, dto);
 		return this.repo.save(producto);
 	}
 
-	async remove(id: string, rubroId: string, ownerId: string): Promise<void> {
-		const producto = await this.findOwned(id, rubroId, ownerId);
+	async remove(id: string, rubroId: string, espacioId: string): Promise<void> {
+		const producto = await this.findOwned(id, rubroId, espacioId);
 		await this.repo.remove(producto);
 	}
 

@@ -13,8 +13,8 @@ export const ALL_RUBRO_STATUSES: RubroStatus[] = [RubroStatus.ACTIVE, RubroStatu
 
 export interface Rubro {
 	id: string;
-	/** UID de Firebase del admin dueño del rubro */
-	ownerId: string;
+	/** Espacio (negocio) al que pertenece el rubro */
+	espacioId: string;
 	nombre: string;
 	descripcion: string | null;
 	imageUrl: string | null;

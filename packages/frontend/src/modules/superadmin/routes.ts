@@ -1,17 +1,16 @@
 import type { RouteRecordRaw } from 'vue-router';
-import AreaLayout from '@/modules/auth/components/AreaLayout.vue';
+import SuperadminLayout from '@/modules/superadmin/components/SuperadminLayout.vue';
 
 const superadminRoutes: RouteRecordRaw[] = [
 	{
 		path: '/superadmin',
-		component: AreaLayout,
-		props: { area: 'superadmin' },
+		component: SuperadminLayout,
 		meta: { requiresAuth: true, area: 'superadmin' },
 		children: [
 			{
 				path: '',
-				name: 'superadmin-home',
-				component: () => import('./views/Dashboard.vue'),
+				name: 'superadmin-espacios',
+				component: () => import('./views/EspaciosView.vue'),
 			},
 		],
 	},

@@ -8,7 +8,8 @@
 		"welcome": "Bienvenido",
 		"notFound": "Página no encontrada",
 		"cancel": "Cancelar",
-		"delete": "Eliminar"
+		"delete": "Eliminar",
+		"edit": "Editar"
 	},
 	"areas": {
 		"superadmin": "Super Admin",
@@ -35,7 +36,12 @@
 			"cta": "Explorar Catálogo"
 		},
 		"products": "Productos",
-		"empty": "Todavía no hay rubros publicados.",
+		"categories": "Rubros",
+		"business": "Negocio",
+		"directoryTitle": "Negocios",
+		"emptyEspacios": "Todavía no hay negocios publicados.",
+		"backHome": "Volver a negocios",
+		"empty": "Este negocio todavía no tiene rubros publicados.",
 		"back": "Volver",
 		"sector": "Sector",
 		"detailTitle": "Rubro",
@@ -53,6 +59,48 @@
 			"leads": "Leads Generados",
 			"support": "Soporte IA",
 			"catalogs": "Catálogos"
+		}
+	},
+	"superadmin": {
+		"panelTitle": "Super Admin",
+		"panelSubtitle": "Gestión de la plataforma",
+		"nav": {
+			"espacios": "Espacios",
+			"usuarios": "Usuarios",
+			"config": "Configuración"
+		},
+		"espacios": {
+			"title": "Gestión de Espacios",
+			"subtitle": "Creá y administrá los negocios de la plataforma. Cada espacio tiene su admin y su vitrina pública.",
+			"new": "Nuevo Espacio",
+			"empty": "Todavía no hay espacios creados.",
+			"active": "Activo",
+			"suspended": "Suspendido",
+			"rubros": "{n} rubros",
+			"suspend": "Suspender",
+			"activate": "Activar",
+			"createTitle": "Crear Espacio",
+			"editTitle": "Editar Espacio",
+			"create": "Crear",
+			"saveChanges": "Guardar cambios",
+			"created": "Espacio creado",
+			"updated": "Espacio actualizado",
+			"deleted": "Espacio eliminado",
+			"deleteTitle": "Eliminar espacio",
+			"deleteConfirm": "¿Eliminar \"{name}\"? Se borrarán su admin, sus rubros y productos.",
+			"domainHint": "En desarrollo se accede por {slug}.localhost. En producción, apuntá este dominio al sitio.",
+			"adminSection": "Admin del espacio (CM)",
+			"errorLoad": "No se pudieron cargar los espacios",
+			"errorForm": "Completá nombre, email y una contraseña de al menos 6 caracteres",
+			"errorEmail": "Ya existe un usuario con ese email",
+			"errorSave": "No se pudo guardar",
+			"errorDelete": "No se pudo eliminar",
+			"fields": {
+				"name": "Nombre del negocio",
+				"description": "Descripción",
+				"logoUrl": "URL del logo (opcional)",
+				"domain": "Dominio (opcional)"
+			}
 		}
 	},
 	"admin": {

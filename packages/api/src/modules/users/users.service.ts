@@ -45,6 +45,7 @@ export class UsersService {
 			displayName: dto.displayName ?? null,
 			role: dto.role,
 			active: dto.active ?? true,
+			espacioId: dto.espacioId ?? null,
 		});
 		return this.repo.save(entity);
 	}

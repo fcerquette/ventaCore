@@ -37,9 +37,9 @@ export const AREAS: Record<AreaKey, AreaConfig> = {
 	app: {
 		key: 'app',
 		role: Role.USER,
-		basePath: '/app',
-		loginPath: '/app/login',
-		homePath: '/app',
+		basePath: '/',
+		loginPath: '/login',
+		homePath: '/',
 	},
 };
 

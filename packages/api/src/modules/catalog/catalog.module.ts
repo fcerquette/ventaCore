@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from '../users/users.module';
+import { SpacesModule } from '../spaces/spaces.module';
 import { FirebaseAuthGuard } from '../../common/auth/firebase-auth.guard';
 import { RolesGuard } from '../../common/auth/roles.guard';
 import { RubroEntity } from './entities/rubro.entity';
@@ -12,7 +13,7 @@ import { ProductosController } from './productos.controller';
 import { PublicController } from './public.controller';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([RubroEntity, ProductoEntity]), UsersModule],
+	imports: [TypeOrmModule.forFeature([RubroEntity, ProductoEntity]), UsersModule, SpacesModule],
 	controllers: [RubrosController, ProductosController, PublicController],
 	providers: [RubrosService, ProductosService, FirebaseAuthGuard, RolesGuard],
 	exports: [RubrosService, ProductosService],

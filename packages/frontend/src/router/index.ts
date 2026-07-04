@@ -19,8 +19,6 @@ declare module 'vue-router' {
 }
 
 const routes: RouteRecordRaw[] = [
-	{ path: '/', redirect: AREAS.app.basePath },
-
 	// Login único: un solo formulario que redirige según el rol del usuario.
 	{
 		path: '/login',
@@ -31,6 +29,7 @@ const routes: RouteRecordRaw[] = [
 
 	...superadminRoutes,
 	...adminRoutes,
+	// appRoutes define la raíz '/' (vitrina pública del negocio del dominio).
 	...appRoutes,
 
 	{

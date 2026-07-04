@@ -21,6 +21,7 @@ export class AuthService {
 			displayName: user.displayName,
 			role: user.role,
 			active: user.active,
+			espacioId: user.espacioId,
 			createdAt: user.createdAt.toISOString(),
 			updatedAt: user.updatedAt.toISOString(),
 		};
