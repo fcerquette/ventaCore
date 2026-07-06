@@ -27,9 +27,14 @@
 		"signIn": "Iniciar sesión",
 		"signInTo": "Ingresá a {area}",
 		"invalidCredentials": "Credenciales inválidas",
-		"forbidden": "No tenés permiso para esta área"
+		"forbidden": "No tenés permiso para esta área",
+		"spaceSuspended": "Tu sitio está suspendido. Contactá al administrador."
 	},
 	"public": {
+		"unavailable": {
+			"title": "Este sitio no está disponible",
+			"subtitle": "El negocio no se encuentra disponible en este momento. Probá de nuevo más tarde."
+		},
 		"hero": {
 			"titlePre": "Gestión de Ventas y Marketing",
 			"titleHi": "Multi-Rubro",
@@ -80,9 +85,7 @@
 		"panelTitle": "Super Admin",
 		"panelSubtitle": "Gestión de la plataforma",
 		"nav": {
-			"espacios": "Espacios",
-			"usuarios": "Usuarios",
-			"config": "Configuración"
+			"espacios": "Espacios"
 		},
 		"espacios": {
 			"title": "Gestión de Espacios",
@@ -100,6 +103,8 @@
 			"saveChanges": "Guardar cambios",
 			"created": "Espacio creado",
 			"updated": "Espacio actualizado",
+			"activatedToast": "Negocio reactivado",
+			"suspendedToast": "Negocio suspendido",
 			"deleted": "Espacio eliminado",
 			"deleteTitle": "Eliminar espacio",
 			"deleteConfirm": "¿Eliminar \"{name}\"? Se borrarán su admin, sus rubros y productos.",
@@ -125,9 +130,7 @@
 		"viewSite": "Ver el sitio",
 		"nav": {
 			"rubros": "Rubros",
-			"nosotros": "Sobre Nosotros",
-			"creativos": "Creativos",
-			"config": "Configuración"
+			"nosotros": "Sobre Nosotros"
 		},
 		"about": {
 			"title": "Sobre Nosotros",
@@ -159,7 +162,6 @@
 		"rubros": {
 			"title": "Gestión de Rubros",
 			"subtitle": "Administrá los sectores comerciales, definí sus datos de marca y organizá sus productos.",
-			"exportReport": "Exportar Reporte",
 			"createTitle": "Crear Nuevo Rubro",
 			"createSubtitle": "Configurá la identidad del sector",
 			"existingTitle": "Rubros Existentes",
@@ -167,9 +169,7 @@
 			"draftCount": "{n} Borradores",
 			"empty": "Todavía no creaste ningún rubro.",
 			"noDescription": "Sin descripción",
-			"reach": "Alcance",
 			"publishInstagram": "Publicar en Instagram",
-			"assetsPlaceholder": "Arrastrá tu logo y guía de estilos",
 			"save": "Guardar Rubro",
 			"created": "Rubro creado",
 			"updated": "Rubro actualizado",
@@ -184,6 +184,8 @@
 				"description": "Descripción",
 				"descriptionPlaceholder": "Describí brevemente el sector y sus objetivos...",
 				"imageUrl": "URL de imagen (opcional)",
+				"logoUrl": "Logo del rubro (opcional)",
+				"logoHint": "Se muestra junto al nombre en la vitrina. Ideal cuadrado y con fondo transparente.",
 				"instagram": "Instagram del negocio",
 				"instagramHint": "Cada rubro es un negocio distinto: su publicación va a este Instagram.",
 				"status": "Estado"

@@ -21,7 +21,7 @@ export type AboutInput = Partial<
 >;
 
 /** Payloads de creación/edición (el backend infiere el dueño desde el token). */
-export type RubroInput = Partial<Pick<Rubro, 'nombre' | 'descripcion' | 'imageUrl' | 'instagramUrl' | 'status'>>;
+export type RubroInput = Partial<Pick<Rubro, 'nombre' | 'descripcion' | 'imageUrl' | 'logoUrl' | 'instagramUrl' | 'status'>>;
 export type ProductoInput = Partial<Pick<Producto, 'nombre' | 'descripcion' | 'precio' | 'imageUrl'>>;
 
 export const useCatalogStore = defineStore('catalog', {
@@ -108,9 +108,11 @@ export const useCatalogStore = defineStore('catalog', {
 		// ── Vitrina pública (negocio del dominio actual) ──
 		/**
 		 * Resuelve el negocio según el hostname del navegador y carga sus rubros.
-		 * Devuelve false si no hay negocio en este dominio.
+		 *  - 'ok'        → negocio activo, vitrina lista
+		 *  - 'suspended' → negocio existe pero está suspendido (403)
+		 *  - 'notfound'  → no hay negocio en este dominio (404)
 		 */
-		async resolveSite(): Promise<boolean> {
+		async resolveSite(): Promise<'ok' | 'suspended' | 'notfound'> {
 			try {
 				const host = window.location.hostname;
 				const { data } = await api.get<{ espacio: Espacio; rubros: Rubro[] }>('/public/site', {
@@ -119,11 +121,12 @@ export const useCatalogStore = defineStore('catalog', {
 				this.currentEspacio = data.espacio;
 				this.publicRubros = data.rubros;
 				this.siteResolved = true;
-				return true;
-			} catch {
+				return 'ok';
+			} catch (e: unknown) {
 				this.currentEspacio = null;
 				this.siteResolved = false;
-				return false;
+				const status = (e as { response?: { status?: number } })?.response?.status;
+				return status === 403 ? 'suspended' : 'notfound';
 			}
 		},
 

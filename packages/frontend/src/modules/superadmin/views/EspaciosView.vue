@@ -247,8 +247,16 @@ export default defineComponent({
 			}
 		},
 		async toggleActive(espacio: Espacio) {
+			const activando = !espacio.active;
 			try {
-				await this.store.updateEspacio(espacio.id, { active: !espacio.active });
+				await this.store.updateEspacio(espacio.id, { active: activando });
+				// Refrescamos del server para que el estado (y metadatos) se vea al instante, sin F5.
+				await this.store.fetchEspacios();
+				this.$toast.add({
+					severity: 'success',
+					summary: this.$t(activando ? 'superadmin.espacios.activatedToast' : 'superadmin.espacios.suspendedToast'),
+					life: 3000,
+				});
 			} catch {
 				this.$toast.add({ severity: 'error', summary: this.$t('superadmin.espacios.errorSave'), life: 4000 });
 			}

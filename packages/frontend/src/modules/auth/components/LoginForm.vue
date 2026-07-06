@@ -2,8 +2,8 @@
 	<div class="flex min-h-screen items-center justify-center bg-surface-50 p-4 dark:bg-surface-950">
 		<div class="w-full max-w-sm rounded-2xl border border-surface-200 bg-white p-8 shadow-sm dark:border-surface-700 dark:bg-surface-900">
 			<div class="mb-6 text-center">
-				<div class="mb-2 text-sm font-medium uppercase tracking-wide text-primary">
-					{{ $t('app.brand') }}
+				<div class="mb-4 flex justify-center">
+					<BrandLogo :size="34" />
 				</div>
 				<h1 class="text-xl font-semibold text-surface-900 dark:text-surface-0">
 					{{ $t('auth.signIn') }}
@@ -41,10 +41,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { areaForRole } from '@base-template/shared';
-import { useUserStore } from '@/modules/auth/store/user';
+import { useUserStore, SuspendedError } from '@/modules/auth/store/user';
+import BrandLogo from '@/shared/components/BrandLogo.vue';
 
 export default defineComponent({
 	name: 'LoginForm',
+	components: { BrandLogo },
 	data() {
 		return {
 			email: '',
@@ -52,6 +54,12 @@ export default defineComponent({
 			loading: false,
 			error: '',
 		};
+	},
+	created() {
+		// Si llegó acá por una sesión de un negocio suspendido, avisamos de una.
+		if (useUserStore().suspended) {
+			this.error = this.$t('auth.spaceSuspended');
+		}
 	},
 	methods: {
 		async onSubmit() {
@@ -64,8 +72,9 @@ export default defineComponent({
 				// Login único: redirige a la home del área que corresponde al rol.
 				const redirect = (this.$route.query.redirect as string) || areaForRole(profile.role).homePath;
 				this.$router.replace(redirect);
-			} catch {
-				this.error = this.$t('auth.invalidCredentials');
+			} catch (e: unknown) {
+				this.error =
+					e instanceof SuspendedError ? this.$t('auth.spaceSuspended') : this.$t('auth.invalidCredentials');
 			} finally {
 				this.loading = false;
 			}

@@ -13,10 +13,15 @@ export class CreateRubroDto {
 	@IsString()
 	descripcion?: string;
 
-	@ApiProperty({ required: false, example: 'https://.../logo.png' })
+	@ApiProperty({ required: false, example: 'https://.../portada.jpg' })
 	@IsOptional()
 	@IsString()
 	imageUrl?: string;
+
+	@ApiProperty({ required: false, example: 'https://.../logo.png' })
+	@IsOptional()
+	@IsString()
+	logoUrl?: string;
 
 	@ApiProperty({ required: false, example: 'https://instagram.com/el.negocio' })
 	@IsOptional()

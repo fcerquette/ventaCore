@@ -1,23 +1,13 @@
 <template>
 	<div class="mx-auto max-w-7xl">
 		<!-- Encabezado -->
-		<div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-			<div>
-				<h1 class="text-3xl font-extrabold tracking-tight text-surface-900 dark:text-surface-0">
-					{{ $t('admin.rubros.title') }}
-				</h1>
-				<p class="mt-2 max-w-2xl text-surface-600 dark:text-surface-300">
-					{{ $t('admin.rubros.subtitle') }}
-				</p>
-			</div>
-			<Button
-				:label="$t('admin.rubros.exportReport')"
-				icon="pi pi-download"
-				outlined
-				rounded
-				disabled
-				:title="$t('admin.soon')"
-			/>
+		<div class="mb-8">
+			<h1 class="text-3xl font-extrabold tracking-tight text-surface-900 dark:text-surface-0">
+				{{ $t('admin.rubros.title') }}
+			</h1>
+			<p class="mt-2 max-w-2xl text-surface-600 dark:text-surface-300">
+				{{ $t('admin.rubros.subtitle') }}
+			</p>
 		</div>
 
 		<div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
@@ -59,6 +49,14 @@
 						</div>
 
 						<div class="space-y-2">
+							<label class="px-1 text-xs font-semibold uppercase tracking-wide text-surface-600 dark:text-surface-300">
+								{{ $t('admin.rubros.fields.logoUrl') }}
+							</label>
+							<InputText v-model="form.logoUrl" class="w-full" placeholder="https://..." />
+							<p class="px-1 text-xs text-surface-400">{{ $t('admin.rubros.fields.logoHint') }}</p>
+						</div>
+
+						<div class="space-y-2">
 							<label class="flex items-center gap-1.5 px-1 text-xs font-semibold uppercase tracking-wide text-surface-600 dark:text-surface-300">
 								<i class="pi pi-instagram" /> {{ $t('admin.rubros.fields.instagram') }}
 							</label>
@@ -71,13 +69,6 @@
 								{{ $t('admin.rubros.fields.status') }}
 							</label>
 							<Select v-model="form.status" :options="statusOptions" option-label="label" option-value="value" class="w-full" />
-						</div>
-
-						<!-- Dropzone decorativo (sin subida por ahora) -->
-						<div class="flex cursor-not-allowed flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-surface-300/60 bg-surface-100/40 p-6 text-center dark:border-surface-600/60 dark:bg-surface-800/20">
-							<i class="pi pi-cloud-upload text-3xl text-surface-400" />
-							<p class="text-sm text-surface-500">{{ $t('admin.rubros.assetsPlaceholder') }}</p>
-							<span class="text-[10px] uppercase tracking-widest text-surface-400">{{ $t('admin.soon') }}</span>
 						</div>
 
 						<Button
@@ -141,10 +132,6 @@
 							<p class="line-clamp-1 text-sm text-surface-600 dark:text-surface-300">
 								{{ rubro.descripcion || $t('admin.rubros.noDescription') }}
 							</p>
-							<div class="mt-3 flex items-center gap-6 text-xs text-surface-400">
-								<span class="flex items-center gap-1.5"><i class="pi pi-users" /> — {{ $t('admin.rubros.reach') }}</span>
-								<span class="flex items-center gap-1.5"><i class="pi pi-bolt" /> — CTR</span>
-							</div>
 						</div>
 
 						<div class="flex flex-row gap-2 md:flex-col" @click.stop>
@@ -152,9 +139,10 @@
 								:label="$t('admin.rubros.publishInstagram')"
 								icon="pi pi-instagram"
 								size="small"
-								disabled
-								:title="$t('admin.soon')"
+								:disabled="!rubro.instagramUrl"
+								:title="rubro.instagramUrl ? '' : $t('public.noInstagram')"
 								class="flex-1 md:flex-none"
+								@click="publicar(rubro)"
 							/>
 							<div class="flex gap-2">
 								<Button icon="pi pi-pencil" severity="secondary" outlined size="small" @click="openEdit(rubro)" />
@@ -180,6 +168,10 @@
 				<div class="space-y-1">
 					<label class="text-sm font-medium">{{ $t('admin.rubros.fields.imageUrl') }}</label>
 					<InputText v-model="edit.imageUrl" class="w-full" placeholder="https://..." />
+				</div>
+				<div class="space-y-1">
+					<label class="text-sm font-medium">{{ $t('admin.rubros.fields.logoUrl') }}</label>
+					<InputText v-model="edit.logoUrl" class="w-full" placeholder="https://..." />
 				</div>
 				<div class="space-y-1">
 					<label class="flex items-center gap-1.5 text-sm font-medium"><i class="pi pi-instagram" /> {{ $t('admin.rubros.fields.instagram') }}</label>
@@ -215,6 +207,7 @@ export default defineComponent({
 				nombre: '',
 				descripcion: '',
 				imageUrl: '',
+				logoUrl: '',
 				instagramUrl: '',
 				status: RubroStatus.DRAFT as RubroStatus,
 			},
@@ -224,6 +217,7 @@ export default defineComponent({
 				nombre: '',
 				descripcion: '',
 				imageUrl: '',
+				logoUrl: '',
 				instagramUrl: '',
 				status: RubroStatus.DRAFT as RubroStatus,
 			},
@@ -256,11 +250,12 @@ export default defineComponent({
 					nombre: this.form.nombre.trim(),
 					descripcion: this.form.descripcion.trim() || undefined,
 					imageUrl: this.form.imageUrl.trim() || undefined,
+					logoUrl: this.form.logoUrl.trim() || undefined,
 					instagramUrl: this.form.instagramUrl.trim() || undefined,
 					status: this.form.status,
 				});
 				this.$toast.add({ severity: 'success', summary: this.$t('admin.rubros.created'), life: 3000 });
-				this.form = { nombre: '', descripcion: '', imageUrl: '', instagramUrl: '', status: RubroStatus.DRAFT };
+				this.form = { nombre: '', descripcion: '', imageUrl: '', logoUrl: '', instagramUrl: '', status: RubroStatus.DRAFT };
 			} catch {
 				this.$toast.add({ severity: 'error', summary: this.$t('admin.errors.save'), life: 4000 });
 			} finally {
@@ -273,6 +268,7 @@ export default defineComponent({
 				nombre: rubro.nombre,
 				descripcion: rubro.descripcion ?? '',
 				imageUrl: rubro.imageUrl ?? '',
+				logoUrl: rubro.logoUrl ?? '',
 				instagramUrl: rubro.instagramUrl ?? '',
 				status: rubro.status,
 			};
@@ -285,6 +281,7 @@ export default defineComponent({
 					nombre: this.edit.nombre.trim(),
 					descripcion: this.edit.descripcion.trim() || undefined,
 					imageUrl: this.edit.imageUrl.trim() || undefined,
+					logoUrl: this.edit.logoUrl.trim() || undefined,
 					instagramUrl: this.edit.instagramUrl.trim(),
 					status: this.edit.status,
 				});
@@ -315,6 +312,10 @@ export default defineComponent({
 		},
 		goToProductos(id: string) {
 			this.$router.push({ name: 'admin-rubro-productos', params: { id } });
+		},
+		/** Abre el Instagram del rubro (misma URL que la publicación desde la vitrina). */
+		publicar(rubro: Rubro) {
+			if (rubro.instagramUrl) window.open(rubro.instagramUrl, '_blank', 'noopener');
 		},
 	},
 });

@@ -17,6 +17,9 @@ import { ProductosService } from './modules/catalog/productos.service';
  */
 
 const img = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1000&q=80`;
+/** Logo/lettermark de demo a partir del nombre del rubro. */
+const logo = (nombre: string) =>
+	`https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&size=128&bold=true&background=1e293b&color=ffffff`;
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
 const ESPACIOS = [
@@ -208,6 +211,7 @@ async function seed() {
 				nombre: r.nombre,
 				descripcion: r.descripcion,
 				imageUrl: img(r.img),
+				logoUrl: logo(r.nombre),
 				status: RubroStatus.ACTIVE,
 			});
 			for (const p of r.productos) {

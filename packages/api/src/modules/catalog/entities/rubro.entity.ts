@@ -29,6 +29,10 @@ export class RubroEntity {
 	@Column({ type: 'varchar', nullable: true })
 	imageUrl!: string | null;
 
+	/** Logo/marca propia del rubro (se muestra junto al título en la vitrina). */
+	@Column({ type: 'varchar', nullable: true })
+	logoUrl!: string | null;
+
 	/** Instagram propio del rubro (cada rubro es un negocio distinto). */
 	@Column({ type: 'varchar', nullable: true })
 	instagramUrl!: string | null;

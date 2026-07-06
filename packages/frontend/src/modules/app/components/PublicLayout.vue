@@ -1,5 +1,17 @@
 <template>
-	<div class="min-h-screen bg-surface-50 dark:bg-surface-950">
+	<!-- Negocio suspendido: pantalla neutra "no disponible" (sin login ni error técnico). -->
+	<div
+		v-if="unavailable"
+		class="flex min-h-screen flex-col items-center justify-center gap-4 bg-surface-50 px-6 text-center dark:bg-surface-950"
+	>
+		<div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-100 text-surface-400 dark:bg-surface-800">
+			<i class="pi pi-clock text-3xl" />
+		</div>
+		<h1 class="text-2xl font-extrabold text-surface-900 dark:text-surface-0">{{ $t('public.unavailable.title') }}</h1>
+		<p class="max-w-md text-surface-500">{{ $t('public.unavailable.subtitle') }}</p>
+	</div>
+
+	<div v-else class="min-h-screen bg-surface-50 dark:bg-surface-950">
 		<header
 			class="sticky top-0 z-50 border-b border-surface-200/70 bg-surface-0/80 shadow-sm backdrop-blur-xl dark:border-surface-700/70 dark:bg-surface-900/80"
 		>
@@ -30,6 +42,15 @@
 
 				<!-- Acciones -->
 				<div class="flex items-center gap-3 justify-self-end">
+					<Button
+						:icon="isDark ? 'pi pi-sun' : 'pi pi-moon'"
+						severity="secondary"
+						size="small"
+						text
+						rounded
+						aria-label="Cambiar tema"
+						@click="toggleTheme"
+					/>
 					<template v-if="isAuthenticated">
 						<Button
 							:label="$t('nav.goToPanel')"
@@ -66,13 +87,18 @@ import { defineComponent } from 'vue';
 import { areaForRole, type Espacio } from '@base-template/shared';
 import { useUserStore } from '@/modules/auth/store/user';
 import { useCatalogStore } from '@/modules/admin/store/catalog';
+import { isDark, toggleTheme } from '@/composables/useTheme';
 
 export default defineComponent({
 	name: 'PublicLayout',
+	setup() {
+		return { isDark, toggleTheme };
+	},
 	data() {
 		return {
 			catalog: useCatalogStore(),
 			ready: false,
+			unavailable: false,
 		};
 	},
 	computed: {
@@ -86,9 +112,15 @@ export default defineComponent({
 	async created() {
 		// Sesión no bloqueante (para decidir "Iniciar sesión" vs "Ir al panel").
 		void useUserStore().currentUser();
-		// Resuelve el negocio por el dominio; si no hay ninguno, al login.
-		const ok = await this.catalog.resolveSite();
-		if (!ok) {
+		// Resuelve el negocio por el dominio.
+		const result = await this.catalog.resolveSite();
+		if (result === 'suspended') {
+			// El negocio existe pero está suspendido: mostramos "no disponible".
+			this.unavailable = true;
+			return;
+		}
+		if (result === 'notfound') {
+			// No hay negocio en este dominio: es la raíz de la plataforma → login.
 			this.$router.replace('/login');
 			return;
 		}

@@ -4,16 +4,17 @@
 		<header
 			class="fixed top-0 left-0 z-50 flex h-16 w-full items-center justify-between border-b border-surface-200/60 bg-surface-0/70 px-6 backdrop-blur-xl dark:border-surface-700/60 dark:bg-surface-900/70"
 		>
-			<span class="text-xl font-extrabold text-primary">{{ $t('app.brand') }}</span>
+			<BrandLogo :size="30" />
 
 			<div class="flex items-center gap-3">
 				<Button
-					:label="$t('admin.viewSite')"
-					icon="pi pi-external-link"
+					:icon="isDark ? 'pi pi-sun' : 'pi pi-moon'"
 					severity="secondary"
 					size="small"
-					outlined
-					@click="$router.push('/')"
+					text
+					rounded
+					aria-label="Cambiar tema"
+					@click="toggleTheme"
 				/>
 				<button
 					type="button"
@@ -69,6 +70,18 @@
 					</span>
 				</router-link>
 			</nav>
+
+			<!-- Acción al pie: ver la vitrina pública -->
+			<div class="mt-2 border-t border-surface-200/60 pt-3 dark:border-surface-700/60">
+				<button
+					type="button"
+					class="flex w-full items-center gap-3 rounded-xl p-3 text-sm font-semibold text-surface-600 transition-all hover:translate-x-1 hover:bg-surface-100 dark:text-surface-300 dark:hover:bg-surface-800"
+					@click="$router.push('/')"
+				>
+					<i class="pi pi-external-link" />
+					<span>{{ $t('admin.viewSite') }}</span>
+				</button>
+			</div>
 		</aside>
 
 		<!-- Contenido -->
@@ -84,6 +97,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useUserStore } from '@/modules/auth/store/user';
+import { isDark, toggleTheme } from '@/composables/useTheme';
+import BrandLogo from '@/shared/components/BrandLogo.vue';
 
 interface NavItem {
 	key: string;
@@ -95,13 +110,15 @@ interface NavItem {
 
 export default defineComponent({
 	name: 'AdminLayout',
+	components: { BrandLogo },
+	setup() {
+		return { isDark, toggleTheme };
+	},
 	data() {
 		return {
 			navItems: [
 				{ key: 'rubros', label: 'admin.nav.rubros', icon: 'pi pi-tags', to: '/admin' },
 				{ key: 'nosotros', label: 'admin.nav.nosotros', icon: 'pi pi-id-card', to: '/admin/nosotros' },
-				{ key: 'creativos', label: 'admin.nav.creativos', icon: 'pi pi-palette', to: '/admin', disabled: true },
-				{ key: 'config', label: 'admin.nav.config', icon: 'pi pi-cog', to: '/admin', disabled: true },
 			] as NavItem[],
 		};
 	},

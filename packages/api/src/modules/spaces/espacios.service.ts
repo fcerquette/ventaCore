@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Role, type Espacio } from '@base-template/shared';
@@ -148,22 +148,27 @@ export class EspaciosService {
 	// ── Público: resolución por dominio ──
 
 	/**
-	 * Resuelve el negocio activo según el hostname del navegador:
+	 * Resuelve el negocio según el hostname del navegador:
 	 *  1) por dominio propio (domain === host)
 	 *  2) por subdominio (primer label del host === slug), ej campo-ruta.localhost
+	 *
+	 * Buscamos SIN filtrar por `active` para poder distinguir un negocio
+	 * suspendido (403) de uno inexistente (404): así la vitrina puede mostrar
+	 * el mensaje correcto en cada caso.
 	 */
 	async resolveByHost(host: string): Promise<EspacioEntity> {
 		const clean = (host || '').toLowerCase().split(':')[0].trim();
 
-		const byDomain = await this.repo.findOne({ where: { domain: clean, active: true } });
-		if (byDomain) return byDomain;
-
-		const sub = clean.split('.')[0];
-		if (sub) {
-			const bySlug = await this.repo.findOne({ where: { slug: sub, active: true } });
-			if (bySlug) return bySlug;
+		let espacio = await this.repo.findOne({ where: { domain: clean } });
+		if (!espacio) {
+			const sub = clean.split('.')[0];
+			if (sub) espacio = await this.repo.findOne({ where: { slug: sub } });
 		}
 
-		throw new NotFoundException('No hay un negocio en este dominio');
+		if (!espacio) throw new NotFoundException('No hay un negocio en este dominio');
+		if (!espacio.active) {
+			throw new ForbiddenException({ code: 'ESPACIO_SUSPENDED', message: 'El negocio está suspendido' });
+		}
+		return espacio;
 	}
 }

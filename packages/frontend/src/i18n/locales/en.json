@@ -27,9 +27,14 @@
 		"signIn": "Sign in",
 		"signInTo": "Sign in to {area}",
 		"invalidCredentials": "Invalid credentials",
-		"forbidden": "You don't have access to this area"
+		"forbidden": "You don't have access to this area",
+		"spaceSuspended": "Your site is suspended. Please contact the administrator."
 	},
 	"public": {
+		"unavailable": {
+			"title": "This site is unavailable",
+			"subtitle": "This business is not available right now. Please try again later."
+		},
 		"hero": {
 			"titlePre": "Sales & Marketing Management",
 			"titleHi": "Multi-Category",
@@ -80,9 +85,7 @@
 		"panelTitle": "Super Admin",
 		"panelSubtitle": "Platform management",
 		"nav": {
-			"espacios": "Spaces",
-			"usuarios": "Users",
-			"config": "Settings"
+			"espacios": "Spaces"
 		},
 		"espacios": {
 			"title": "Space Management",
@@ -100,6 +103,8 @@
 			"saveChanges": "Save changes",
 			"created": "Space created",
 			"updated": "Space updated",
+			"activatedToast": "Business reactivated",
+			"suspendedToast": "Business suspended",
 			"deleted": "Space deleted",
 			"deleteTitle": "Delete space",
 			"deleteConfirm": "Delete \"{name}\"? Its admin, categories and products will be removed.",
@@ -125,9 +130,7 @@
 		"viewSite": "View site",
 		"nav": {
 			"rubros": "Categories",
-			"nosotros": "About Us",
-			"creativos": "Creatives",
-			"config": "Settings"
+			"nosotros": "About Us"
 		},
 		"about": {
 			"title": "About Us",
@@ -159,7 +162,6 @@
 		"rubros": {
 			"title": "Category Management",
 			"subtitle": "Manage commercial sectors, define their brand data and organize their products.",
-			"exportReport": "Export Report",
 			"createTitle": "Create New Category",
 			"createSubtitle": "Configure the sector identity",
 			"existingTitle": "Existing Categories",
@@ -167,9 +169,7 @@
 			"draftCount": "{n} Drafts",
 			"empty": "You haven't created any category yet.",
 			"noDescription": "No description",
-			"reach": "Reach",
 			"publishInstagram": "Publish to Instagram",
-			"assetsPlaceholder": "Drag your logo and style guide",
 			"save": "Save Category",
 			"created": "Category created",
 			"updated": "Category updated",
@@ -184,6 +184,8 @@
 				"description": "Description",
 				"descriptionPlaceholder": "Briefly describe the sector and its goals...",
 				"imageUrl": "Image URL (optional)",
+				"logoUrl": "Category logo (optional)",
+				"logoHint": "Shown next to the name in the storefront. Ideally square with a transparent background.",
 				"instagram": "Business Instagram",
 				"instagramHint": "Each category is a different business: its post goes to this Instagram.",
 				"status": "Status"

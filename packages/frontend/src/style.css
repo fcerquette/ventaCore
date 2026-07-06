@@ -6,6 +6,18 @@
 
 :root {
 	--app-surface: #f8fafc;
+
+	/* Colores del logo (isotipo + wordmark). Cambian solos en oscuro. */
+	--logo-grad-a: #630ed4;
+	--logo-grad-b: #39b8fd;
+	--logo-core: #ffffff;
+}
+
+.p-dark {
+	/* Violeta/celeste aclarados para el navy, y núcleo del isotipo en navy. */
+	--logo-grad-a: #a78bfa;
+	--logo-grad-b: #7bd0ff;
+	--logo-core: #0d1c2d;
 }
 
 html,
@@ -37,6 +49,19 @@ body {
 }
 
 .p-dark .glass-card {
-	background: rgba(30, 30, 46, 0.6);
-	border-color: rgba(255, 255, 255, 0.08);
+	background: rgba(39, 54, 71, 0.4); /* surface-container-highest navy (#273647), como Stitch */
+	border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Texto enriquecido de "Sobre Nosotros" ──
+   Va en global (no scoped) para alcanzar el HTML de v-html y reaccionar a
+   .p-dark con CSS plano, sin la gimnasia de :deep()/:global() del scoped. */
+.about-prose strong,
+.about-prose b {
+	font-weight: 700;
+	color: var(--p-surface-900); /* casi negro en claro */
+}
+.p-dark .about-prose strong,
+.p-dark .about-prose b {
+	color: var(--p-surface-0); /* blanco en oscuro */
 }

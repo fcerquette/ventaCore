@@ -67,21 +67,22 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* Color base del texto enriquecido (los <p>/<li> lo heredan). Se fija acá
+   —no solo con clases Tailwind— para ganarle en especificidad al v-html. */
+.about-prose {
+	color: var(--p-surface-600);
+}
+:global(.p-dark) .about-prose {
+	color: var(--p-surface-300);
+}
 .about-prose :deep(p) {
 	margin-bottom: 1rem;
 }
 .about-prose :deep(p:last-child) {
 	margin-bottom: 0;
 }
-.about-prose :deep(strong),
-.about-prose :deep(b) {
-	font-weight: 700;
-	color: var(--p-surface-900);
-}
-:global(.dark) .about-prose :deep(strong),
-:global(.dark) .about-prose :deep(b) {
-	color: var(--p-surface-0);
-}
+/* El color de la negrita (<strong>/<b>) se define en style.css (global),
+   porque necesita alcanzar el contenido v-html y reaccionar a .p-dark. */
 .about-prose :deep(ul),
 .about-prose :deep(ol) {
 	margin: 0.75rem 0;

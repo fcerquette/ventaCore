@@ -5,7 +5,7 @@
 			class="fixed top-0 left-0 z-50 flex h-16 w-full items-center justify-between border-b border-surface-200/60 bg-surface-0/70 px-6 backdrop-blur-xl dark:border-surface-700/60 dark:bg-surface-900/70"
 		>
 			<div class="flex items-center gap-3">
-				<span class="text-xl font-extrabold text-primary">{{ $t('app.brand') }}</span>
+				<BrandLogo :size="28" />
 				<span class="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
 					{{ $t('areas.superadmin') }}
 				</span>
@@ -13,12 +13,13 @@
 
 			<div class="flex items-center gap-3">
 				<Button
-					:label="$t('admin.viewSite')"
-					icon="pi pi-external-link"
+					:icon="isDark ? 'pi pi-sun' : 'pi pi-moon'"
 					severity="secondary"
 					size="small"
-					outlined
-					@click="$router.push('/')"
+					text
+					rounded
+					aria-label="Cambiar tema"
+					@click="toggleTheme"
 				/>
 				<button
 					type="button"
@@ -57,19 +58,10 @@
 					v-for="item in navItems"
 					:key="item.key"
 					:to="item.to"
-					:class="[
-						'flex items-center gap-3 rounded-xl p-3 text-sm font-semibold transition-all',
-						item.disabled
-							? 'cursor-not-allowed text-surface-400'
-							: 'bg-primary/10 text-primary shadow-sm',
-					]"
-					@click="item.disabled && $event.preventDefault()"
+					class="flex items-center gap-3 rounded-xl bg-primary/10 p-3 text-sm font-semibold text-primary shadow-sm transition-all"
 				>
 					<i :class="item.icon" />
 					<span>{{ $t(item.label) }}</span>
-					<span v-if="item.disabled" class="ml-auto text-[10px] uppercase text-surface-400">
-						{{ $t('admin.soon') }}
-					</span>
 				</router-link>
 			</nav>
 		</aside>
@@ -87,15 +79,19 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useUserStore } from '@/modules/auth/store/user';
+import { isDark, toggleTheme } from '@/composables/useTheme';
+import BrandLogo from '@/shared/components/BrandLogo.vue';
 
 export default defineComponent({
 	name: 'SuperadminLayout',
+	components: { BrandLogo },
+	setup() {
+		return { isDark, toggleTheme };
+	},
 	data() {
 		return {
 			navItems: [
 				{ key: 'espacios', label: 'superadmin.nav.espacios', icon: 'pi pi-building', to: '/superadmin' },
-				{ key: 'usuarios', label: 'superadmin.nav.usuarios', icon: 'pi pi-users', to: '/superadmin', disabled: true },
-				{ key: 'config', label: 'superadmin.nav.config', icon: 'pi pi-cog', to: '/superadmin', disabled: true },
 			],
 		};
 	},

@@ -12,6 +12,17 @@
 			rel="stylesheet"
 		/>
 		<title>VentaCore</title>
+		<!-- Aplica el tema antes del render para evitar el "flash" de tema incorrecto.
+		     Debe reflejar la misma lógica que src/composables/useTheme.ts. -->
+		<script>
+			(function () {
+				try {
+					var s = localStorage.getItem('theme');
+					var dark = s === 'dark' || (s !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+					if (dark) document.documentElement.classList.add('p-dark');
+				} catch (e) {}
+			})();
+		</script>
 	</head>
 	<body>
 		<div id="app"></div>

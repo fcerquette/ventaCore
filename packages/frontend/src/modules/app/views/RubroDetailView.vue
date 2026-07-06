@@ -21,9 +21,17 @@
 					<i class="pi pi-tag text-sm text-white" />
 					<span class="text-xs font-bold uppercase tracking-wide text-white">{{ $t('public.sector') }}</span>
 				</span>
-				<h1 class="max-w-2xl text-3xl font-extrabold leading-tight text-white md:text-4xl">
-					{{ rubro?.nombre || $t('public.detailTitle') }}
-				</h1>
+				<div class="flex items-center gap-4">
+					<div
+						v-if="rubro?.logoUrl"
+						class="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/40 bg-white/95 p-2 shadow-lg backdrop-blur-sm md:h-16 md:w-16 dark:bg-surface-900/90"
+					>
+						<img :src="rubro.logoUrl" :alt="rubro?.nombre" class="h-full w-full object-contain" />
+					</div>
+					<h1 class="max-w-2xl text-3xl font-extrabold leading-tight text-white md:text-4xl">
+						{{ rubro?.nombre || $t('public.detailTitle') }}
+					</h1>
+				</div>
 				<p v-if="rubro?.descripcion" class="max-w-xl text-white/85">{{ rubro.descripcion }}</p>
 			</div>
 		</section>

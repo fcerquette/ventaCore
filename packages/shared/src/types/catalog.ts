@@ -18,6 +18,8 @@ export interface Rubro {
 	nombre: string;
 	descripcion: string | null;
 	imageUrl: string | null;
+	/** Logo/marca propia del rubro (se muestra junto al título en la vitrina). */
+	logoUrl: string | null;
 	/** Instagram propio del rubro (cada rubro es un negocio distinto). */
 	instagramUrl: string | null;
 	status: RubroStatus;

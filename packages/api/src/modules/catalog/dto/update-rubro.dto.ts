@@ -22,6 +22,11 @@ export class UpdateRubroDto {
 	@ApiProperty({ required: false })
 	@IsOptional()
 	@IsString()
+	logoUrl?: string;
+
+	@ApiProperty({ required: false })
+	@IsOptional()
+	@IsString()
 	instagramUrl?: string;
 
 	@ApiProperty({ enum: RubroStatus, required: false })
