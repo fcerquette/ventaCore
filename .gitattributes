@@ -1,0 +1,4 @@
+# Los scripts de shell corren en Linux: siempre LF, sin importar la
+# config de core.autocrlf de quien commitee. Un CRLF acá hace que el
+# server falle con "bad interpreter: /bin/bash^M".
+*.sh text eol=lf
